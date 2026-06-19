@@ -5,12 +5,6 @@ AI-Powered Digital Twin of India's Climate using National Datasets
 Developed for Bharatiya Antariksh Hackathon 2026 (ISRO)
 
 
-
-
-
-
-
-
 🚀 Overview
 
 Bharat Climate Twin AI is an AI-powered Digital Twin platform designed to create a dynamic virtual representation of India's climate system using indigenous datasets from IMD and ISRO.
