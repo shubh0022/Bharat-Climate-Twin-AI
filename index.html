@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bharat Climate Twin AI — ISRO Bharatiya Antariksh Hackathon 2026</title>
+  <meta name="description" content="AI-powered Digital Twin integrating satellite observations, climate intelligence, predictive forecasting, and scenario simulations for a climate-resilient India.">
+  
+  <!-- SEO Meta Tags -->
+  <meta property="og:title" content="Bharat Climate Twin AI — India's Living Climate Intelligence System">
+  <meta property="og:description" content="Integrates INSAT, IMD feeds and AI models into a real-time climate digital twin. Developed for ISRO's Bharatiya Antariksh Hackathon 2026.">
+  <meta property="og:type" content="website">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="/src/style.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/brand/favicon.svg">
+</head>
+<body>
+
+  <!-- Cybernetic Grid and Film Grain Backgrounds -->
+  <div class="cyber-grid" id="cyberGrid"></div>
+  <div class="film-grain"></div>
+
+  <!-- FLOATING NAVBAR -->
+  <div class="navbar-wrapper">
+    <nav class="navbar" id="mainNavbar" aria-label="Main Navigation">
+      <a href="#" class="brand" id="navBrand" aria-label="Bharat Climate Twin AI Homepage">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" class="navbar-logo" style="height: 38px; width: auto; display: block;">
+          <defs>
+            <style>
+              .nav-sp-saffron { --sp-color: #f97316; --delay: 0.8s; }
+              .nav-sp-green { --sp-color: #10b981; --delay: 1.2s; }
+              .nav-sp-blue { --sp-color: #3b82f6; --delay: 1.6s; }
+
+              .nav-logo-streamline {
+                stroke-dasharray: 100;
+                stroke-dashoffset: 100;
+                animation: navDrawStreamline 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+                animation-delay: var(--delay);
+              }
+
+              .nav-logo-node {
+                transform-origin: 30px 30px;
+                opacity: 0;
+                transform: scale(0);
+                animation: navScaleNode 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+              }
+              .nav-logo-node.outer {
+                animation-delay: calc(var(--delay) + 0.5s);
+              }
+              .nav-logo-node.inner {
+                animation: navScaleNode 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, navPulseInner 3s ease-in-out infinite;
+                animation-delay: 0.4s, 2.2s;
+              }
+
+              .nav-logo-orbit {
+                stroke-dasharray: 280;
+                stroke-dashoffset: 280;
+                transform-origin: 30px 30px;
+                animation: navDrawOrbit 2s cubic-bezier(0.22, 1, 0.36, 1) forwards, navRotateOrbit 20s linear infinite;
+                animation-delay: 0.2s;
+              }
+
+              .nav-logo-text-main {
+                opacity: 0;
+                transform: translateX(-10px);
+                animation: navFadeInText 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+                animation-delay: 2.2s;
+                fill: var(--color-text);
+              }
+              .nav-logo-text-sub {
+                opacity: 0;
+                transform: translateX(-10px);
+                animation: navFadeInText 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+                animation-delay: 2.5s;
+                fill: var(--color-text-dim);
+              }
+
+              @keyframes navDrawStreamline { to { stroke-dashoffset: 0; } }
+              @keyframes navScaleNode { to { opacity: 1; transform: scale(1); } }
+              @keyframes navDrawOrbit { to { stroke-dashoffset: 0; } }
+              @keyframes navRotateOrbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+              @keyframes navFadeInText { to { opacity: 1; transform: translateX(0); } }
+              @keyframes navPulseInner {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.15); filter: drop-shadow(0 0 3px var(--color-accent)); }
+              }
+
+              #navBrand:hover .nav-logo-orbit {
+                animation-duration: 6s;
+              }
+              #navBrand:hover .nav-logo-node.outer {
+                filter: drop-shadow(0 0 4px var(--sp-color));
+              }
+            </style>
+          </defs>
+
+          <!-- Instrument crosshair background -->
+          <g opacity="0.15">
+            <circle cx="30" cy="30" r="28" stroke="var(--color-text-dim)" stroke-width="0.5" fill="none" stroke-dasharray="1 5" />
+            <line x1="30" y1="1" x2="30" y2="59" stroke="var(--color-text-dim)" stroke-width="0.5" />
+            <line x1="1" y1="30" x2="59" y2="30" stroke="var(--color-text-dim)" stroke-width="0.5" />
+          </g>
+
+          <!-- Rotating Orbit -->
+          <g class="nav-logo-orbit">
+            <circle cx="30" cy="30" r="26" stroke="var(--color-text-dim)" stroke-width="0.75" fill="none" stroke-dasharray="30 130" opacity="0.4" />
+            <circle cx="30" cy="4" r="1.5" fill="var(--color-saffron)" />
+          </g>
+
+          <!-- Spokes -->
+          <g class="nav-sp-saffron">
+            <path class="nav-logo-streamline" d="M 30,8 A 22 22 0 0 1 49,21 C 41,31 34,26 30,30" fill="none" stroke="var(--sp-color)" stroke-width="2.5" stroke-linecap="round" />
+            <circle class="nav-logo-node outer" cx="30" cy="8" r="2.5" fill="var(--sp-color)" />
+          </g>
+
+          <g class="nav-sp-green" transform="rotate(120 30 30)">
+            <path class="nav-logo-streamline" d="M 30,8 A 22 22 0 0 1 49,21 C 41,31 34,26 30,30" fill="none" stroke="var(--sp-color)" stroke-width="2.5" stroke-linecap="round" />
+            <circle class="nav-logo-node outer" cx="30" cy="8" r="2.5" fill="var(--sp-color)" />
+          </g>
+
+          <g class="nav-sp-blue" transform="rotate(240 30 30)">
+            <path class="nav-logo-streamline" d="M 30,8 A 22 22 0 0 1 49,21 C 41,31 34,26 30,30" fill="none" stroke="var(--sp-color)" stroke-width="2.5" stroke-linecap="round" />
+            <circle class="nav-logo-node outer" cx="30" cy="8" r="2.5" fill="var(--sp-color)" />
+          </g>
+
+          <!-- Central node -->
+          <circle class="nav-logo-node inner" cx="30" cy="30" r="3.5" fill="var(--color-text)" />
+
+          <!-- Typography -->
+          <text class="nav-logo-text-main" x="65" y="27" font-family="'Inter', sans-serif" font-size="15px" font-weight="800" letter-spacing="0.18em">BHARAT</text>
+          <text class="nav-logo-text-sub" x="65" y="44" font-family="'Inter', sans-serif" font-size="9px" font-weight="600" letter-spacing="0.04em">CLIMATE TWIN AI</text>
+        </svg>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li class="nav-link active"><a href="#hero">Overview</a></li>
+        <li class="nav-link"><a href="#digital-twin">Digital Twin</a></li>
+        <li class="nav-link"><a href="#forecasting">Forecasting</a></li>
+        <li class="nav-link"><a href="#scenario-lab">Scenario Lab</a></li>
+        <li class="nav-link"><a href="#dashboard">Dashboard</a></li>
+        <li class="nav-link"><a href="#copilot">Copilot</a></li>
+      </ul>
+      <div class="nav-right">
+        <!-- Live Clock & Local weather feeds -->
+        <div class="nav-clock" id="navbarClock">
+          <span class="ping-indicator"></span>
+          <span id="clockTime">20:20:45</span> • <span id="clockWeather">NEW DELHI: 31.2°C</span>
+        </div>
+        <!-- Light/Dark Mode Switcher -->
+        <button class="theme-toggle" id="themeToggleBtn" aria-label="Switch Design Mode">
+          <svg id="themeToggleIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <!-- Command Gateway / Logout Link -->
+        <a href="/login.html" class="theme-toggle" id="gatewayBtn" aria-label="Access Command Gateway" style="text-decoration: none;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- HERO SECTION -->
+  <header class="hero-section" id="hero">
+    <!-- Immersive WebGL Background -->
+    <div class="globe-container" id="globeContainer">
+      <canvas class="canvas3d" id="globeCanvas" aria-label="Interactive 3D Climate Globe of India"></canvas>
+    </div>
+
+    <div class="hero-overlay-content">
+      <!-- Left Column: Title & CTAs -->
+      <div class="hero-text">
+        <div class="badge" id="missionBadge">
+          <span class="badge-dot"></span>
+          ISRO Hackathon 2026 Project
+        </div>
+        <h1 class="hero-title" id="heroHeadline">
+          India's Living<br>Climate Intelligence System
+        </h1>
+        <p class="hero-subtitle" id="heroSubheadline">
+          AI-powered Digital Twin integrating satellite observations, climate intelligence, predictive forecasting, and scenario simulations for a climate-resilient India.
+        </p>
+        <div class="hero-actions">
+          <a href="#digital-twin" class="btn btn-primary" id="primaryCta">Launch Digital Twin</a>
+          <a href="#scenario-lab" class="btn btn-secondary" id="secondaryCta">Explore Climate Scenarios</a>
+        </div>
+      </div>
+
+      <!-- Right Column: Command Console (Interactive Centerpiece) -->
+      <section class="command-console" id="commandConsole" aria-labelledby="consoleHeading">
+        <!-- Corner Brackets for Tactical View -->
+        <div class="console-bracket tl"></div>
+        <div class="console-bracket tr"></div>
+        <div class="console-bracket bl"></div>
+        <div class="console-bracket br"></div>
+
+        <div class="console-header">
+          <h2 class="console-title" id="consoleHeading">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><circle cx="12" cy="12" r="10"/><path d="m16.2 7.8-2 2-2-2"/><path d="m7.8 16.2 2-2 2 2"/></svg>
+            System Terminal
+          </h2>
+          <div class="console-telemetry">
+            <div class="telemetry-item">
+              <span class="ping-indicator"></span>
+              INSAT-3DR: ONLINE
+            </div>
+            <div class="telemetry-item" id="consoleTime">
+              REF_TIME: 20:20:45
+            </div>
+          </div>
+        </div>
+
+        <div class="console-body">
+          <!-- Interactive Map Box -->
+          <div class="console-map-viewport" id="mapViewport" aria-label="Interactive Climate Subdivisions of India">
+            <div class="radar-sweep-effect"></div>
+            <div class="map-radar-ring"></div>
+            <div class="map-grid-axes"></div>
+            
+            <!-- Beautiful Stylized SVGs representing the Meteorological Subdivisions of India -->
+            <svg class="india-svg-map" viewBox="0 0 600 680" id="indiaMapSvg">
+              <!-- Outline / Grid of India divided into 5 Climate Zones -->
+              <g id="mapRegions">
+                <!-- Zone 1: Northwest Region (Thar Desert & Northern Plains) -->
+                <path d="M 170,100 L 250,50 L 320,100 L 320,220 L 260,280 L 140,240 L 140,160 Z" 
+                      id="region-northwest" 
+                      data-name="Northwest Semi-Arid Zone" 
+                      data-temp="34.8" data-rain="120" data-risk="HIGH" />
+                <!-- Zone 2: Gangetic Plain & Eastern Region -->
+                <path d="M 320,220 L 450,230 L 520,190 L 580,240 L 560,320 L 460,330 L 380,300 L 320,290 Z" 
+                      id="region-east" 
+                      data-name="Gangetic & East Coastal Zone" 
+                      data-temp="29.2" data-rain="1420" data-risk="MODERATE" />
+                <!-- Zone 3: Peninsular Deccan Region -->
+                <path d="M 260,280 L 380,300 L 410,420 L 360,520 L 290,560 L 250,450 L 220,380 Z" 
+                      id="region-deccan" 
+                      data-name="Deccan Peninsula Basin" 
+                      data-temp="31.5" data-rain="680" data-risk="LOW" />
+                <!-- Zone 4: Western Coastal Ghats -->
+                <path d="M 140,240 L 260,280 L 220,380 L 250,450 L 290,560 L 260,650 L 200,500 L 160,360 Z" 
+                      id="region-west-ghats" 
+                      data-name="Western Ghats Rainforests" 
+                      data-temp="27.4" data-rain="2850" data-risk="CRITICAL" />
+                <!-- Zone 5: Northeast Hill Tracts -->
+                <path d="M 520,190 L 590,170 L 600,220 L 580,240 L 540,240 Z" 
+                      id="region-northeast" 
+                      data-name="Northeast Sub-Tropical Zone" 
+                      data-temp="24.1" data-rain="3240" data-risk="HIGH" />
+              </g>
+            </svg>
+          </div>
+
+          <!-- Mini Sidebar Metrics inside console -->
+          <div class="console-side-panels" id="consoleSidePanels">
+            
+            <div class="side-panel-card" id="rainfallPanel">
+              <div class="panel-title">
+                Rainfall Prediction (24h)
+                <span class="panel-trend trend-down">-4.2%</span>
+              </div>
+              <div class="panel-value-row">
+                <div class="panel-value" id="valRain">8.2<span class="panel-unit">mm/hr</span></div>
+              </div>
+              <div class="panel-visual">
+                <canvas class="canvas-mini-chart" id="rainMiniChart"></canvas>
+              </div>
+            </div>
+
+            <div class="side-panel-card" id="tempPanel">
+              <div class="panel-title">
+                Temperature Deviation
+                <span class="panel-trend trend-up">+0.8°C</span>
+              </div>
+              <div class="panel-value-row">
+                <div class="panel-value" id="valTemp">31.2<span class="panel-unit">°C</span></div>
+              </div>
+              <div class="panel-visual">
+                <canvas class="canvas-mini-chart" id="tempMiniChart"></canvas>
+              </div>
+            </div>
+
+            <div class="side-panel-card" id="riskPanel">
+              <div class="panel-title">
+                Climate Risk Index
+              </div>
+              <div class="panel-value-row">
+                <div class="panel-value" id="valRisk">78.5<span class="panel-unit">/100</span></div>
+              </div>
+              <div class="panel-visual" style="display: flex; align-items: center;">
+                <div class="risk-meter">
+                  <div class="risk-meter-fill" id="riskMeterBar"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="console-footer">
+          <div class="confidence-indicator">
+            <span>AI Predict Conf:</span>
+            <div class="progress-bar-sm" aria-label="Prediction confidence bar">
+              <div class="progress-fill-cyan" id="confidenceBar"></div>
+            </div>
+            <span id="confidenceText">94.8%</span>
+          </div>
+          <div id="selectedRegionReadout">SELECTED: ALL INDIA GRID</div>
+        </div>
+      </section>
+    </div>
+  </header>
+
+  <!-- SECTION 1: CLIMATE DIGITAL TWIN -->
+  <main>
+    <section class="section" id="digital-twin" aria-labelledby="twinHeading">
+      <div class="section-header">
+        <span class="section-label">Digital Twin Interface</span>
+        <h2 class="section-title" id="twinHeading">High-Resolution India Spatial Grid</h2>
+        <p class="section-desc">Observe simulated land states, thermal profiles, and rainfall patterns mapped directly from geostationary payloads.</p>
+      </div>
+
+      <div class="digital-twin-grid">
+        <!-- Twin WebGL Visualizer Viewport -->
+        <div class="interactive-twin-viewport" id="twinViewport" aria-label="Digital Twin Viewport">
+          <!-- Sub-Threejs Canvas or interactive simulation display -->
+          <canvas id="twinCanvas" style="width: 100%; height: 100%; display: block;"></canvas>
+          
+          <div class="twin-controls" role="group" aria-label="Weather layers overlay toggle">
+            <button class="twin-btn active" id="btnRainOverlay">Rainfall</button>
+            <button class="twin-btn" id="btnTempOverlay">Temperature</button>
+            <button class="twin-btn" id="btnWindOverlay">Wind Fields</button>
+          </div>
+        </div>
+
+        <!-- Details list -->
+        <div class="twin-details-panel">
+          <div class="twin-feature-row">
+            <div class="feature-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="feature-content">
+              <h4>Real-time Telemetry Interpolation</h4>
+              <p>Direct ingestion from MOSDAC and INSAT satellites translates raw infrared and microwave payloads into surface values in seconds.</p>
+            </div>
+          </div>
+
+          <div class="twin-feature-row">
+            <div class="feature-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            </div>
+            <div class="feature-content">
+              <h4>3D Grid Resolving (500m)</h4>
+              <p>Simulates cloud motion vectors, rainfall profiles, and volumetric atmosphere grids over mountainous terrain and coastal basins.</p>
+            </div>
+          </div>
+
+          <div class="twin-feature-row">
+            <div class="feature-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="feature-content">
+              <h4>INSAT Multi-Sensor Layer Toggles</h4>
+              <p>Switch between precipitation matrices, land surface temperature profiles, and cloud optical thickness on-the-fly.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: AI FORECAST ENGINE -->
+    <section class="section" id="forecasting" aria-labelledby="forecastHeading">
+      <div class="section-header">
+        <span class="section-label">Predictive Forecaster</span>
+        <h2 class="section-title" id="forecastHeading">AI Climate Prognosis Engine</h2>
+        <p class="section-desc">Intelligent neural networks model future anomalies to support national disaster preparedness teams.</p>
+      </div>
+
+      <div class="forecast-grid">
+        <!-- Card 1: Temp -->
+        <div class="forecast-card">
+          <div class="forecast-header">
+            <div class="forecast-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></svg>
+            </div>
+            <span class="forecast-badge stable">STABLE</span>
+          </div>
+          <h3 class="forecast-title">Temperature Prognosis</h3>
+          <div class="forecast-metric">
+            <span class="forecast-value">+1.2</span>
+            <span class="forecast-unit">°C dev</span>
+          </div>
+          <p class="forecast-desc">Slight thermal deviation projected for Southern Peninsula over the next 15 days.</p>
+        </div>
+
+        <!-- Card 2: Rain -->
+        <div class="forecast-card">
+          <div class="forecast-header">
+            <div class="forecast-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"/><path d="M8 16v6"/><path d="M12 16v6"/><path d="M16 16v6"/></svg>
+            </div>
+            <span class="forecast-badge critical">CRITICAL</span>
+          </div>
+          <h3 class="forecast-title">Rainfall Prognosis</h3>
+          <div class="forecast-metric">
+            <span class="forecast-value">+32%</span>
+            <span class="forecast-unit">anomaly</span>
+          </div>
+          <p class="forecast-desc">Heavy localized precipitation surge modeled for Northeast catchment zones.</p>
+        </div>
+
+        <!-- Card 3: Heatwave -->
+        <div class="forecast-card">
+          <div class="forecast-header">
+            <div class="forecast-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M6.34 17.66l-1.41 1.41"/><path d="M19.07 4.93l-1.41 1.41"/></svg>
+            </div>
+            <span class="forecast-badge warning">WARNING</span>
+          </div>
+          <h3 class="forecast-title">Heatwave Indices</h3>
+          <div class="forecast-metric">
+            <span class="forecast-value">46.5</span>
+            <span class="forecast-unit">°C peak</span>
+          </div>
+          <p class="forecast-desc">Elevated wet-bulb temperature indicators in Thar Desert region districts.</p>
+        </div>
+
+        <!-- Card 4: Drought -->
+        <div class="forecast-card">
+          <div class="forecast-header">
+            <div class="forecast-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22a7 7 0 0 0 7-7c0-4.3-7-11-7-11S5 10.7 5 15a7 7 0 0 0 7 7z"/></svg>
+            </div>
+            <span class="forecast-badge stable">LOW RISK</span>
+          </div>
+          <h3 class="forecast-title">Drought Probability</h3>
+          <div class="forecast-metric">
+            <span class="forecast-value">12.4</span>
+            <span class="forecast-unit">% index</span>
+          </div>
+          <p class="forecast-desc">Subsoil moisture reservoirs restored by preceding localized rainfall system.</p>
+        </div>
+
+        <!-- Card 5: Flood -->
+        <div class="forecast-card">
+          <div class="forecast-header">
+            <div class="forecast-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20"/><path d="M2 16h20"/><path d="M2 8h20"/></svg>
+            </div>
+            <span class="forecast-badge critical">SEVERE</span>
+          </div>
+          <h3 class="forecast-title">Flood Risk Index</h3>
+          <div class="forecast-metric">
+            <span class="forecast-value">84.2</span>
+            <span class="forecast-unit">/100</span>
+          </div>
+          <p class="forecast-desc">High volumetric discharge metrics at major catchment gauges along Brahmaputra.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: SCENARIO LAB -->
+    <section class="section" id="scenario-lab" aria-labelledby="scenarioHeading">
+      <div class="section-header">
+        <span class="section-label">Simulation Chamber</span>
+        <h2 class="section-title" id="scenarioHeading">Interactive Scenario Simulator</h2>
+        <p class="section-desc">Adjust regional environmental parameters to run instant climate impact simulations across the subcontinent.</p>
+      </div>
+
+      <div class="scenario-grid">
+        <!-- Left Column: Sliders -->
+        <div class="scenario-controls-panel">
+          
+          <div class="slider-group">
+            <div class="slider-label-row">
+              <span class="slider-name">Global Thermal Delta (Temperature)</span>
+              <span class="slider-val-readout" id="readoutTemp">+0.0°C</span>
+            </div>
+            <input type="range" min="-1" max="4" step="0.1" value="0" class="custom-range-input" id="sliderTemp" aria-label="Temperature Delta Slider">
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label-row">
+              <span class="slider-name">Precipitation Coefficient (Rainfall)</span>
+              <span class="slider-val-readout" id="readoutRain">0%</span>
+            </div>
+            <input type="range" min="-50" max="100" step="5" value="0" class="custom-range-input" id="sliderRain" aria-label="Rainfall Delta Slider">
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label-row">
+              <span class="slider-name">Subcontinental Humidity Variance</span>
+              <span class="slider-val-readout" id="readoutHumidity">0%</span>
+            </div>
+            <input type="range" min="-30" max="30" step="2" value="0" class="custom-range-input" id="sliderHumidity" aria-label="Humidity Variance Slider">
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label-row">
+              <span class="slider-name">Monsoon Temporal Shift</span>
+              <span class="slider-val-readout" id="readoutMonsoon">0 Days</span>
+            </div>
+            <input type="range" min="-15" max="30" step="1" value="0" class="custom-range-input" id="sliderMonsoon" aria-label="Monsoon Shift Slider">
+          </div>
+
+        </div>
+
+        <!-- Right Column: Outputs -->
+        <div class="scenario-output-panel" id="scenarioOutputPanel" aria-live="polite">
+          <div class="scenario-output-header">
+            <div class="badge" style="background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.2); color: var(--color-secondary);">
+              Sim Engine v2.4 Active
+            </div>
+            <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--color-text);">Simulated Impact Projection</h3>
+          </div>
+
+          <div class="scenario-impact-row">
+            <div class="impact-metric-card">
+              <span class="impact-label">Flood Vulnerability</span>
+              <div class="impact-value" id="simFloodVal">28.5%</div>
+            </div>
+            <div class="impact-metric-card">
+              <span class="impact-label">Water Stress Index</span>
+              <div class="impact-value" id="simWaterVal">42.1%</div>
+            </div>
+            <div class="impact-metric-card">
+              <span class="impact-label">Stability Margin</span>
+              <div class="impact-value" id="simStabilityVal">88.4%</div>
+            </div>
+            <div class="impact-metric-card">
+              <span class="impact-label">Projected Crop Yield</span>
+              <div class="impact-value" id="simCropVal">0.0%</div>
+            </div>
+          </div>
+
+          <div class="scenario-notes">
+            <strong style="color: var(--color-text); font-family: var(--font-mono); font-size: 0.8rem; display: block; margin-bottom: 0.5rem; text-transform: uppercase;">Simulation Analysis:</strong>
+            <span id="scenarioAnalysisText">Parameters stable. India ecosystem in operational equilibrium. Monitor Western Ghats precipitation indices for flash flood thresholds.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: NATIONAL DATA INFRASTRUCTURE -->
+    <section class="section" id="data-infrastructure" aria-labelledby="infraHeading">
+      <div class="section-header">
+        <span class="section-label">Space & Meteorological Nodes</span>
+        <h2 class="section-title" id="infraHeading">National Data Integration Fabric</h2>
+        <p class="section-desc">Direct satellite APIs, telemetry hooks, and geographic systems connected securely to the twin core.</p>
+      </div>
+
+      <div class="infrastructure-grid" id="infraGrid">
+        <!-- Node 1 -->
+        <div class="infra-card active-glow" id="node-imd-rain">
+          <div class="infra-header">
+            <span class="infra-logo">IMD-R</span>
+            <span class="infra-status-indicator">
+              <span class="ping-indicator" style="background-color: var(--color-secondary);"></span>
+              Connected
+            </span>
+          </div>
+          <h4 class="infra-title">IMD Rainfall Grid</h4>
+          <p class="infra-desc">Gauges across 36 sub-divisions tracking live precipitation updates hourly.</p>
+          <div class="infra-details-row">
+            <span>PING: 12ms</span>
+            <span>BANDWIDTH: 1.2 GB/s</span>
+          </div>
+        </div>
+
+        <!-- Node 2 -->
+        <div class="infra-card active-glow" id="node-imd-temp">
+          <div class="infra-header">
+            <span class="infra-logo">IMD-T</span>
+            <span class="infra-status-indicator">
+              <span class="ping-indicator"></span>
+              Connected
+            </span>
+          </div>
+          <h4 class="infra-title">IMD Surface Temperature</h4>
+          <p class="infra-desc">Synoptic stations monitoring maximum/minimum daily temperature cycles.</p>
+          <div class="infra-details-row">
+            <span>PING: 14ms</span>
+            <span>BANDWIDTH: 840 MB/s</span>
+          </div>
+        </div>
+
+        <!-- Node 3 -->
+        <div class="infra-card active-glow" id="node-insat-lst">
+          <div class="infra-header">
+            <span class="infra-logo">INSAT-LST</span>
+            <span class="infra-status-indicator">
+              <span class="ping-indicator"></span>
+              Connected
+            </span>
+          </div>
+          <h4 class="infra-title">INSAT Land Temp</h4>
+          <p class="infra-desc">Imager channel 10.8 microns delivering thermal footprints of subcontinental surface.</p>
+          <div class="infra-details-row">
+            <span>PING: 28ms</span>
+            <span>BANDWIDTH: 4.8 GB/s</span>
+          </div>
+        </div>
+
+        <!-- Node 4 -->
+        <div class="infra-card active-glow" id="node-insat-sst">
+          <div class="infra-header">
+            <span class="infra-logo">INSAT-SST</span>
+            <span class="infra-status-indicator">
+              <span class="ping-indicator"></span>
+              Connected
+            </span>
+          </div>
+          <h4 class="infra-title">INSAT Sea Temp</h4>
+          <p class="infra-desc">Splits-window algorithm tracking Indian Ocean temperature variations.</p>
+          <div class="infra-details-row">
+            <span>PING: 31ms</span>
+            <span>BANDWIDTH: 3.2 GB/s</span>
+          </div>
+        </div>
+
+        <!-- Node 5 -->
+        <div class="infra-card active-glow" id="node-mosdac">
+          <div class="infra-header">
+            <span class="infra-logo">MOSDAC</span>
+            <span class="infra-status-indicator">
+              <span class="ping-indicator"></span>
+              Connected
+            </span>
+          </div>
+          <h4 class="infra-title">MOSDAC Interface</h4>
+          <p class="infra-desc">Meteorological and Oceanographic Satellite Data Archival Center gateway.</p>
+          <div class="infra-details-row">
+            <span>PING: 18ms</span>
+            <span>BANDWIDTH: 9.6 GB/s</span>
+          </div>
+        </div>
+
+        <!-- Node 6 -->
+        <div class="infra-card active-glow" id="node-bhuvan">
+          <div class="infra-header">
+            <span class="infra-logo">BHUVAN</span>
+            <span class="infra-status-indicator">
+              <span class="ping-indicator"></span>
+              Connected
+            </span>
+          </div>
+          <h4 class="infra-title">Bhuvan Geo-Portal</h4>
+          <p class="infra-desc">Geospatial overlays, administrative bounds, and topography grid elevations.</p>
+          <div class="infra-details-row">
+            <span>PING: 11ms</span>
+            <span>BANDWIDTH: 12.4 GB/s</span>
+          </div>
+        </div>
+
+        <!-- Node 7 -->
+        <div class="infra-card active-glow" id="node-nices">
+          <div class="infra-header">
+            <span class="infra-logo">NICES</span>
+            <span class="infra-status-indicator">
+              <span class="ping-indicator"></span>
+              Connected
+            </span>
+          </div>
+          <h4 class="infra-title">NICES Climate Indicators</h4>
+          <p class="infra-desc">National Information System for Climate and Environmental Studies database.</p>
+          <div class="infra-details-row">
+            <span>PING: 22ms</span>
+            <span>BANDWIDTH: 1.8 GB/s</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: CLIMATE INTELLIGENCE DASHBOARD -->
+    <section class="section" id="dashboard" aria-labelledby="dashHeading">
+      <div class="section-header">
+        <span class="section-label">Real-time Dashboard</span>
+        <h2 class="section-title" id="dashHeading">Subcontinental Climate Status</h2>
+        <p class="section-desc">Operational telemetry gauges reporting daily changes against historical averages.</p>
+      </div>
+
+      <div class="dashboard-metrics-grid">
+        <div class="metric-dashboard-card" id="dashMetricStability">
+          <span class="dashboard-card-label">Climate Stability</span>
+          <div class="dashboard-card-value" id="countStability">88.4%</div>
+          <div class="dashboard-card-footer">
+            <span class="ping-indicator" style="background-color: var(--color-secondary);"></span>
+            Optimal Range
+          </div>
+        </div>
+
+        <div class="metric-dashboard-card" id="dashMetricRain">
+          <span class="dashboard-card-label">Rainfall Anomaly</span>
+          <div class="dashboard-card-value" id="countRain">+12.3mm</div>
+          <div class="dashboard-card-footer">
+            <span class="ping-indicator" style="background: #eab308; box-shadow: 0 0 8px #eab308;"></span>
+            Slight surplus
+          </div>
+        </div>
+
+        <div class="metric-dashboard-card" id="dashMetricTemp">
+          <span class="dashboard-card-label">Temp Deviation</span>
+          <div class="dashboard-card-value" id="countTemp">+0.68°C</div>
+          <div class="dashboard-card-footer">
+            <span class="ping-indicator" style="background: #ef4444; box-shadow: 0 0 8px #ef4444;"></span>
+            Above average
+          </div>
+        </div>
+
+        <div class="metric-dashboard-card" id="dashMetricDrought">
+          <span class="dashboard-card-label">Drought Probability</span>
+          <div class="dashboard-card-value" id="countDrought">14.2%</div>
+          <div class="dashboard-card-footer">
+            <span class="ping-indicator"></span>
+            Low hazard
+          </div>
+        </div>
+
+        <div class="metric-dashboard-card" id="dashMetricFlood">
+          <span class="dashboard-card-label">Flood Vulnerability</span>
+          <div class="dashboard-card-value" id="countFlood">28.5%</div>
+          <div class="dashboard-card-footer">
+            <span class="ping-indicator"></span>
+            Localized watch
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: AI CLIMATE COPILOT -->
+    <section class="section" id="copilot" aria-labelledby="copilotHeading">
+      <div class="section-header">
+        <span class="section-label">Conversational intelligence</span>
+        <h2 class="section-title" id="copilotHeading">AI Climate Copilot</h2>
+        <p class="section-desc">Consult our subcontinental intelligence assistant to retrieve district-level forecasts and flood prognoses.</p>
+      </div>
+
+      <div class="copilot-grid">
+        <!-- Interactive Chat Terminal -->
+        <div class="copilot-chat-container">
+          <div class="copilot-header">
+            <div class="copilot-header-title">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><path d="M12 2a10 10 0 0 1 7.54 16.59c-.4.48-.54 1.15-.36 1.76l.72 2.45a.5.5 0 0 1-.68.61l-2.88-1.54a1.86 1.86 0 0 0-1.66-.08A10 10 0 1 1 12 2Z"/></svg>
+              Copilot Console v4.12
+            </div>
+            <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--color-accent);">STATUS: READY</span>
+          </div>
+
+          <div class="copilot-body" id="chatOutput" aria-live="polite">
+            <div class="chat-bubble ai">
+              Namaste. I am your Bharat Climate Copilot. I ingest real-time payloads from INSAT-3D, IMD weather feeds, and runoff models. How can I assist you with subcontinental climate analysis today?
+            </div>
+          </div>
+
+          <div class="copilot-footer">
+            <form class="chat-input-row" id="copilotChatForm" aria-label="Copilot Query Form">
+              <input type="text" placeholder="Query districts, precipitation profiles, or scenario projections..." class="chat-input" id="chatInput" aria-label="Query Input">
+              <button type="submit" class="chat-send-btn" id="btnSendChat">Transmit</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Suggestion Cards -->
+        <div class="copilot-prompts-panel">
+          <div class="prompt-suggestion-box" data-query="Which districts are at highest flood risk next week?">
+            <span class="prompt-title">District Hazard</span>
+            <div class="prompt-text">"Which districts are at highest flood risk next week?"</div>
+          </div>
+
+          <div class="prompt-suggestion-box" data-query="What is the projected temperature deviation for Rajasthan next month?">
+            <span class="prompt-title">Heatwave Prediction</span>
+            <div class="prompt-text">"What is the projected temperature deviation for Rajasthan next month?"</div>
+          </div>
+
+          <div class="prompt-suggestion-box" data-query="Run monsoon temporal shift anomaly analysis.">
+            <span class="prompt-title">Monsoon Tracking</span>
+            <div class="prompt-text">"Run monsoon temporal shift anomaly analysis."</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="main-footer">
+    <div class="footer-content">
+      <div>
+        <span>© 2026 Bharat Climate Twin AI. Developed for ISRO's Bharatiya Antariksh Hackathon 2026.</span>
+      </div>
+      <ul class="footer-links">
+        <li class="footer-link"><a href="#hero">Overview</a></li>
+        <li class="footer-link"><a href="#digital-twin">Digital Twin</a></li>
+        <li class="footer-link"><a href="/brand.html">Brand Lab</a></li>
+        <li class="footer-link"><a href="https://mosdac.gov.in" target="_blank" rel="noopener noreferrer">MOSDAC</a></li>
+        <li class="footer-link"><a href="https://bhuvan.nrsc.gov.in" target="_blank" rel="noopener noreferrer">Bhuvan</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- MAIN JS MODULE -->
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

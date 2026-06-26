@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" width="100%" height="100%">
+  <defs>
+    <style>
+      .mono-element {
+        stroke: currentColor;
+      }
+      .mono-fill {
+        fill: currentColor;
+      }
+    </style>
+  </defs>
+
+  <g opacity="0.08">
+    <circle cx="30" cy="30" r="28" class="mono-element" stroke-width="0.5" fill="none" stroke-dasharray="1 5" />
+    <line x1="30" y1="1" x2="30" y2="59" class="mono-element" stroke-width="0.5" />
+    <line x1="1" y1="30" x2="59" y2="30" class="mono-element" stroke-width="0.5" />
+  </g>
+
+  <circle cx="30" cy="30" r="26" class="mono-element" stroke-width="0.75" fill="none" stroke-dasharray="8 8" opacity="0.2" />
+
+  <g>
+    <path d="M 30,8 A 22 22 0 0 1 49,21 C 41,31 34,26 30,30" fill="none" class="mono-element" stroke-width="2.5" stroke-linecap="round" />
+    <circle cx="30" cy="8" r="2.5" class="mono-fill" />
+  </g>
+
+  <g transform="rotate(120 30 30)">
+    <path d="M 30,8 A 22 22 0 0 1 49,21 C 41,31 34,26 30,30" fill="none" class="mono-element" stroke-width="2.5" stroke-linecap="round" />
+    <circle cx="30" cy="8" r="2.5" class="mono-fill" />
+  </g>
+
+  <g transform="rotate(240 30 30)">
+    <path d="M 30,8 A 22 22 0 0 1 49,21 C 41,31 34,26 30,30" fill="none" class="mono-element" stroke-width="2.5" stroke-linecap="round" />
+    <circle cx="30" cy="8" r="2.5" class="mono-fill" />
+  </g>
+
+  <circle cx="30" cy="30" r="3.5" class="mono-fill" />
+
+  <text x="65" y="27" font-family="'Inter', -apple-system, sans-serif" font-size="15px" font-weight="800" letter-spacing="0.18em" class="mono-fill">BHARAT</text>
+  <text x="65" y="44" font-family="'Inter', -apple-system, sans-serif" font-size="9px" font-weight="600" letter-spacing="0.04em" class="mono-fill" opacity="0.7">CLIMATE TWIN AI</text>
+</svg>
